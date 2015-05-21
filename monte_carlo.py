@@ -38,16 +38,17 @@ def monte_carlo(N):
         rchp=uniform(0.5,1)
         rtbp=uniform(0.5,1)
         rthp=uniform(0.5,1)
-        #Temperature chambre desiree
-        Tcomb=uniform(1700,2500)
+        #Alpha
+        alpha=uniform(0.01,0.1)
         #Coefficient de partage du flux
         lamb=random()*100
         #Flux
         WA=randint(100,1000)
+        WF=alpha*WA
         #Vitesse
         VA=M*(1.4*237*TC)**0.5      
         
-        experience=[TT,PT,ts,tcbp,tchp,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,VA,turboreacteur(TT,PT,ts,tcbp,tchp,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,VA)]
+        experience=[TT,PT,ts,tcbp,tchp,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA,turboreacteur(TT,PT,ts,tcbp,tchp,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA)]
         entrees.append(experience)
         resultat.write(str(experience))#ajoute au fichier
     resultat.close()
