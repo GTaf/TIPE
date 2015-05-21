@@ -67,7 +67,7 @@ finv2k=interpolate.interp1d(F2k[1],F2k[0]) #fonction l'inverse
 
 
     
-def turboreacteur(T1,P1,ts,tcbp,tchp,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,VA):
+def turboreacteur(T1,P1,ts,tcbp,tchp,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA):
     """Modélisation d'un turboréacteur
     Hypothèses : transformations isentropiques dans com  """          
     
