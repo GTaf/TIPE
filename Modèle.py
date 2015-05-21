@@ -54,8 +54,8 @@ f1 = interpolate.interp1d(F1[0],F1[1])#fonction primitive
 finv1=interpolate.interp1d(F1[1],F1[0]) #reciproque
 
 """ integrale des cp"""
-Cpra=lambda T: (3.5-0.000028*T+0.0000000224*T*T+(3090*3090*a(T))/(T*T*(a(T)-1)*(a(T)-1)))*298
-Cprk=lambda T: (-0.0000018373*T*T+0.00801994*T+4.47659)*298
+Cpra=lambda T: (3.5-0.000028*T+0.0000000224*T*T+(3090*3090*a(T))/(T*T*(a(T)-1)*(a(T)-1)))*298 #air
+Cprk=lambda T: (-0.0000018373*T*T+0.00801994*T+4.47659)*298 #kerosene
 F2a = calcul_T(10,10000,1,Cpra)#passage long
 F2k = calcul_T(10,10000,1,Cprk)
 
@@ -67,7 +67,7 @@ finv2k=interpolate.interp1d(F2k[1],F2k[0]) #fonction l'inverse
 
 
     
-def turboreacteur(T1,P1,ts,tcbp,tchp,tt,alpha,lamb,WA,WF,a):
+def turboreacteur(T1,P1,ts,tcbp,tchp,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,VA):
     """Modélisation d'un turboréacteur
     Hypothèses : transformations isentropiques dans com  """          
     
@@ -101,11 +101,11 @@ def turboreacteur(T1,P1,ts,tcbp,tchp,tt,alpha,lamb,WA,WF,a):
     print("Température chambre = ",T5)
     
     #Turbine HP, obtenu par equilibre HP
-    T6=finv2(f2(T5)-(f2(T4)-f2(T3))*WA/(WA+WF))#problème rendement manquant
+    T6=finv2(f2(T5)-(f2(T4)-f2(T3))*WA/(WA+WF)/rthp/rchp) #prise en compte rendement turbine+compresseur
     print("T6 = ",T6)
     
     #Turbine BP, obtenu par equilibre BP
-    T7=finv2(f2(T6)-0.7*0.7*(f2(T3)-f2(T1))*WA/(WA+WF)+0.7*0.7*(f2(T1)-f2(T2))*lamb*WA/(WA+WF))#rendement de 0.7, à revoir
+    T7=finv2(f2(T6)-(f2(T3)-f2(T1))*WA/(WA+WF)/rtbp/rcbp-(f2(T2)-f2(T1))*lamb*WA/(WA+WF))/rtbp/rs #prise en compte turbine+compresseur+souflante
     print("T7 = ",T7)
     
     #Mélangeur, application 1er principe
@@ -116,7 +116,7 @@ def turboreacteur(T1,P1,ts,tcbp,tchp,tt,alpha,lamb,WA,WF,a):
     C9=sqrt(2*(-f2(T9)+f2(T8)))
     
     #Rendement
-    Pcin=(WA+lamb*WA+WF)*C9*C9/2
+    Pcin=(((1+lamb)*WA+WF)*C9**2-(1+lamb)*WA*VA**2)/2
     Pth=(WA+WF)*(f2(T5)-f2(T4))
     Rendement=Pcin/Pth
     
