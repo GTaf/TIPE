@@ -74,7 +74,6 @@ def turboreacteur(T1,P1,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,
     f2 = lambda T : (f2a(T)+alpha*f2k(T))/(1+alpha)
     F2 = (np.array(F2a)+alpha*np.array(F2k))/(1+alpha)
     finv2=interpolate.interp1d(F2[1],F2[0])
-    print(finv2(f2(900)))
             
     print("T1 = ",T1)
     #Soufflante, obtenu par integration(Laplace adapté)
@@ -101,11 +100,11 @@ def turboreacteur(T1,P1,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,
     print("Température chambre = ",T5)
     
     #Turbine HP, obtenu par equilibre HP
-    T6=finv2(f2(T5)-(f2(T4)-f2(T3))*WA/(WA+WF)/rthp/rchp) #prise en compte rendement turbine+compresseur
+    T6=finv2(f2(T5)-(f2(T4)-f2(T3))*WA/(WA+WF)*rthp*rchp) #prise en compte rendement turbine+compresseur
     print("T6 = ",T6)
     
     #Turbine BP, obtenu par equilibre BP
-    T7=finv2(f2(T6)-(f2(T3)-f2(T1))*WA/(WA+WF)/rtbp/rcbp-(f2(T2)-f2(T1))*lamb*WA/(WA+WF))/rtbp/rs #prise en compte turbine+compresseur+souflante
+    T7=finv2(f2(T6)-(f2(T3)-f2(T1))*WA/(WA+WF)*rtbp*rcbp-(f2(T2)-f2(T1))*lamb*WA/(WA+WF)*rtbp*rs) #prise en compte turbine+compresseur+souflante
     print("T7 = ",T7)
     
     #Mélangeur, application 1er principe
