@@ -23,26 +23,26 @@ def monte_carlo(N):
         PC= ISA_P(z)
         
         #Nombre de Mach
-        M=uniform(0,0.99)#loi uniforme sur 0 0.99
+        M=choice([0,0.1,0.3,0.5,0.7,0.8,0.85,0.9,0.95,0.99])#choix au hasard
         #Temperature totale
         TT=TC*(1+0.2*M**2)
         #Pression totale
         PT=PC*(1+0.2*M**2)**3.5
         #Taux de compression
-        ts=randint(1,50)#soufflante
-        tcbp=randint(1,50)#compresseur bp
-        tchp=randint(1,50)#compresseur hp
+        ts=randint(1,3)#soufflante
+        tcbp=randint(1,3)#compresseur bp
+        tchp=randint(1,3)#compresseur hp
         #Rendement
-        rs=uniform(0.5,1)
-        rcbp=uniform(0.5,1)
-        rchp=uniform(0.5,1)
-        rtbp=uniform(0.5,1)
-        rthp=uniform(0.5,1)
+        rs=0.7#uniform(0.5,1)
+        rcbp=0.7#uniform(0.5,1)
+        rchp=0.7#uniform(0.5,1)
+        rtbp=0.7#uniform(0.5,1)
+        rthp=0.7#uniform(0.5,1)
         #Alpha
-        alpha=uniform(0.01,0.1)
+        alpha=uniform(0.01,0.06)
         tt=0.97#turbine
         #Coefficient de partage du flux
-        lamb=random()*100
+        lamb=random()*10
         #Flux
         WA=randint(100,1000)
         WF=alpha*WA
@@ -50,5 +50,5 @@ def monte_carlo(N):
         VA=M*(1.4*237*TC)**0.5      
         
         experience=[TT,PT,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA,turboreacteur(TT,PT,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA)]
-        resultat.write(str(experience))#ajoute au fichier
+        resultat.write(str(experience)+'\n')#ajoute au fichier
     resultat.close()
