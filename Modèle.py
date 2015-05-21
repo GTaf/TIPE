@@ -47,7 +47,7 @@ a = lambda T: exp(3090/T)
 
 """integrale de gamma sur gamma-1, pour l'air pur"""
 fp1=lambda T: gamma_temperature(0,0)(T)/(T*(gamma_temperature(0,0)(T)-1)) #fonction gamma/T*(gamma-1) de l'air
-F1=calcul_T(20,3000,1,fp1) #calcul de la primitive de gamma/T*(gamma-1) pour l'air
+F1=calcul_T(20,10000,1,fp1) #calcul de la primitive de gamma/T*(gamma-1) pour l'air
     
     
 f1 = interpolate.interp1d(F1[0],F1[1])#fonction primitive
@@ -67,7 +67,7 @@ finv2k=interpolate.interp1d(F2k[1],F2k[0]) #fonction l'inverse
 
 
     
-def turboreacteur(T1,P1,ts,tcbp,tchp,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA):
+def turboreacteur(T1,P1,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA):
     """Modélisation d'un turboréacteur
     Hypothèses : transformations isentropiques dans com  """          
     
@@ -94,7 +94,7 @@ def turboreacteur(T1,P1,ts,tcbp,tchp,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA)
     avanct=WF/(0.012+4*0.001)
     Df=avanct*(DfCO2+2*DfH2O-DfCH4)
     
-    print("T4 = ",T4,"      ",f2(T4))
+    print("T4 = ",T4)
     
     T5=finv2(f2(T4)+(Df/(WA+WF)))
     
@@ -110,6 +110,7 @@ def turboreacteur(T1,P1,ts,tcbp,tchp,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA)
     
     #Mélangeur, application 1er principe
     T8=finv2(((WA+WF)*f2(T7)+lamb*WA*f2(T2))/(WF+WA+WA*lamb))
+    print("T8 = ",T8)    
     
     #Tuyère, application 1er principe
     T9=finv1(f1(T8)+log(tt))

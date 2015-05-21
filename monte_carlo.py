@@ -11,7 +11,7 @@ def monte_carlo(N):
     Retourne une liste contenant N listes de paramètres d'entrees
     Chaque liste correspond a une experience, les parametres etant choisis au 
     hasard"""
-    entrees=[]
+    
     resultat = open("resulat.txt","a")#cré fichier resultat
     for i in range (N):
         experience=[]
@@ -29,9 +29,9 @@ def monte_carlo(N):
         #Pression totale
         PT=PC*(1+0.2*M**2)**3.5
         #Taux de compression
-        ts=randint(0,50)#soufflante
-        tcbp=randint(0,50)#compresseur bp
-        tchp=randint(0,50)#compresseur hp
+        ts=randint(1,50)#soufflante
+        tcbp=randint(1,50)#compresseur bp
+        tchp=randint(1,50)#compresseur hp
         #Rendement
         rs=uniform(0.5,1)
         rcbp=uniform(0.5,1)
@@ -40,6 +40,7 @@ def monte_carlo(N):
         rthp=uniform(0.5,1)
         #Alpha
         alpha=uniform(0.01,0.1)
+        tt=0.97#turbine
         #Coefficient de partage du flux
         lamb=random()*100
         #Flux
@@ -48,8 +49,6 @@ def monte_carlo(N):
         #Vitesse
         VA=M*(1.4*237*TC)**0.5      
         
-        experience=[TT,PT,ts,tcbp,tchp,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA,turboreacteur(TT,PT,ts,tcbp,tchp,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA)]
-        entrees.append(experience)
+        experience=[TT,PT,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA,turboreacteur(TT,PT,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA)]
         resultat.write(str(experience))#ajoute au fichier
     resultat.close()
-    return entrees
