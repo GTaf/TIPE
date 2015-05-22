@@ -1,3 +1,6 @@
+"""Chose bizarre en bas avec f1 utilisée pour le melange air kerosene"""
+
+
 from calcul_T import *
 import scipy
 from math import *
@@ -77,14 +80,17 @@ def turboreacteur(T1,P1,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,
             
     print("T1 = ",T1)
     #Soufflante, obtenu par integration(Laplace adapté)
-    T2=finv1(f1(T1)+log(ts)) #log correspond au logarithme néperien
+    T2p=finv1(f1(T1)+log(ts)) #ltemperature si isentropique
+    T2 = finv1(f1(T1)+(f1(T2p)-f1(T1))/rs)#temperature réelle
     print("T2 = ",T2)
     #Compresseur BP, obtenu par integration(Laplace adapté)
-    T3=finv1(f1(T2)+log(tcbp))#log correspond au logarithme néperien
+    T3p=finv1(f1(T2)+log(tcbp))#temp isentropique
+    T3=finv1(f1(T2)+(f1(T3p)-f1(T2))/rcbp)#temp réelle
     print("T3 = ",T3)
         
     #Compresseur HP, obtenu par integration(Laplace adapté)
-    T4=finv1((f1(T3)+log(tchp)))#log correspond au logarithme néperien
+    T4p=finv1((f1(T3)+log(tchp)))#temp isentropique
+    T4=finv1(f1(T3)+(f1(T4p)-f1(T3))/rchp)#temp réelle
         
     #Chambre de combustion, 1er principe thermochimie
     DfCO2=394000#DfCO2
@@ -112,11 +118,12 @@ def turboreacteur(T1,P1,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,
     print("T8 = ",T8)    
     
     #Tuyère, application 1er principe
-    T9=finv1(f1(T8)+log(tt))
-    C9=sqrt(2*(-f2(T9)+f2(T8)))
+    T9=finv1(f1(T8)+log(tt))   #pourquoi f1, alpha negligé?
+    C9=sqrt(2*(f2(T9)-f2(T8)))
+    print("C9 = ", C9,' VA = ',VA)
     
     #Rendement
-    Pcin=(((1+lamb)*WA+WF)*C9**2-(1+lamb)*WA*VA**2)/2
+    Pcin=(((1+lamb)*WA+WF)*C9**2)/2
     Pth=(WA+WF)*(f2(T5)-f2(T4))
     Rendement=Pcin/Pth
     
