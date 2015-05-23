@@ -40,7 +40,7 @@ def monte_carlo(N):
         rthp=0.7#uniform(0.5,1)
         #Alpha
         alpha=uniform(0.06,0.06)
-        tt=1.5#turbine
+        tt=1.5#tuyère
         #Coefficient de partage du flux
         lamb=randint(1,10)
         #Flux

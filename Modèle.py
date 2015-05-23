@@ -139,7 +139,7 @@ def turboreacteur(T1,P1,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,
     print("T6 = ",T6)
      
     #Turbine BP, obtenu par equilibre BP
-    T7=finv2(f2(T6)-(f2(T3)-f2(T1))*WA/(WA+WF)*rtbp*rcbp-(f2(T2)-f2(T1))*lamb*WA/(WA+WF)*rtbp*rs) #prise en compte turbine+compresseur+souflante
+    T7=finv2(f2(T6)-(f2(T3)-f2(T1))*WA/(WA+WF)*rtbp-(f2(T2)-f2(T1))*lamb*WA/(WA+WF)*rtbp) #prise en compte turbine+compresseur+souflante
     """
     Pcomp=Pic/rc #Pic sans perte, Pcomb réel
     Pturb=Pit*rt #Pit sans perte, Pturb réel
@@ -156,10 +156,11 @@ def turboreacteur(T1,P1,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,
     print("T8 = ",T8)    
     
     #Tuyère, application 1er principe
-    T9=finv3(f3(T8)+log(tt))   #est-ce que f3 est bien definie?
+    T9=finv3(f3(T8)+log(tt))   #est-ce que f3 est bien definie?OUI!
     C9=sqrt(2*(f2(T9)-f2(T8)))
-    print("C9 = ", C9,' VA = ',VA)
+    print("C9 = ", C9)
     P9=tt*P8 #si besoin pour modélisation tuyère
+    print(P9)
     
     #Rendement
     Pcin=(((1+lamb)*WA+WF)*C9**2)/2
