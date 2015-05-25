@@ -1,5 +1,6 @@
 from Modèle import *
 from random import *
+import numpy as np
 
 #fonction donnant la température et la pression en fonction de l'altitude    
 ISA_temp = interpolate.interp1d([0,11000,20000,32000],[288,216.5,216.5,228.5])
@@ -12,7 +13,7 @@ def monte_carlo(N):
     Chaque liste correspond a une experience, les parametres etant choisis au 
     hasard"""
     
-    resultat = open("resulat.txt","a")#cré fichier resultat
+    resultat = []#crée liste resultat
     for i in range (N):
         experience=[]
         
@@ -49,6 +50,9 @@ def monte_carlo(N):
         #Vitesse
         VA=M*1224#(1.4*237*TC)**0.5      
         
-        experience=[TT,PT,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA,turboreacteur(TT,PT,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA)]
-        resultat.write(str(experience)+'\n')#ajoute au fichier
-    resultat.close()
+        res=turboreacteur(TT,PT,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA)
+        print(res)
+        experience=[TT,PT,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,VA,res[0],res[1]]
+        resultat.append(np.array(experience))#ajoute au fichier
+    resultat=np.array(resultat)
+    np.savetxt('test.txt', resultat)

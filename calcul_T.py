@@ -17,9 +17,9 @@ def calcul_T(T0,T1,p,Cp):
     
     
 def f(T):# à definir plus précisément, fonction Cp(T)
-    a=2*math.sqrt(T)    
+    a = lambda T: exp(3090/T)    
     
-    return 3.5-0.000028*T+0.0000000224*(T**2)+(3000*3000*a)/(T*(a-1)*(a-1))
+    return 3.5-0.000028*T+0.0000000224*(T**2)+(3000*3000*a(T))/(T*(a(T)-1)*(a(T)-1))
 
 import matplotlib.pyplot as pypl
 def trace(T0,T1,p,Cp):

@@ -167,6 +167,6 @@ def turboreacteur(T1,P1,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,
     Pth=(WA+WF)*(f2(T5)-f2(T4))
     Rendement=Pcin/Pth
     
-    return Rendement,T5
+    return [Rendement,int(T5)]
     
     
