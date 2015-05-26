@@ -117,12 +117,17 @@ def turboreacteur(T1,P1,ts,tcbp,tchp,tt,rs,rcbp,rchp,rtbp,rthp,alpha,lamb,WA,WF,
     T4=finv1(f1(T3)+(f1(T4p)-f1(T3))/rchp)#temp réelle
     P4=tchp*P3 #si besoin pour modélisation tuyère
         
-    #Chambre de combustion, 1er principe thermochimie(isobare)
-    DfCO2=394000#DfCO2
-    DfH2O=280000#DfH20
-    DfCH4=88000
-    avanct=WF/(0.012+4*0.001)
-    Df=avanct*(DfCO2+2*DfH2O-DfCH4)
+    #Chambre de combustion, 1er principe thermochimie(isobare) 
+    """
+    Kerosene de C10H22 a C14H30
+    reaction theorique : 
+    CnHm + (n + m/4) (O2 + 3,73 N2 + 0,044 Ar) = n CO2 + m/2 H2O + (n + m/4) (3,73 N2 + 0,044 Ar) 
+    On prend :
+    2 C10H22 + 31 O2 + 124 N2 = 20 CO2 + 22 H2O + 124 N2
+    """
+    DfH=304000000 #pouvoir calorifique reaction combustion kerosene en J/mol
+    avanct=WF/(10*0.012+22*0.001) 
+    Df=avanct*Dfh
     
     print("T4 = ",T4)
     
